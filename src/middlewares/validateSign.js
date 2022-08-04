@@ -1,6 +1,6 @@
 import {signSchema} from '../schemas/authSchema.js'
 import connection from '../dataBase/dbStrategy.js'
-
+import bcrypt from 'bcrypt';
 
  async function validateSign(req, res, next){
     const {email, password} = req.body;
@@ -16,9 +16,13 @@ import connection from '../dataBase/dbStrategy.js'
     if(rows[0] == undefined){
         return res.sendStatus(401)
     }
-    if(rows[0].email !== email || rows[0].password !== password){
+
+    console.log(bcrypt.compareSync(password, rows[0].password))
+
+    if(rows[0].email !== email || !bcrypt.compareSync(password, rows[0].password)){
         return res.sendStatus(401)
     }
+    res.locals.user = rows[0];
 
     next();
 

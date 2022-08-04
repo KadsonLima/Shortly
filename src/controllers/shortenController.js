@@ -11,14 +11,17 @@ export const shortenUrl = async (req, res) =>{
     try {
         const {rows} = await connection.query("SELECT users.id FROM users WHERE users.email=$1", [email])
         const user = rows[0].id;
-        const urlShort = await connection.query('INSERT INTO "urlShorten"(url, "urlShorty") VALUES ($1, $2)', [url, nanoid()]);
+        const urlShort = nanoid();   
 
-        console.log(urlShort)
+        await connection.query('INSERT INTO urls(url, "shortUrl", "userId") VALUES ($1, $2, $3)', [url, urlShort, user]);
+
+        res.status(200).send({"shortUrl":urlShort});
+
+
     } catch (error) {
         console.log(error)
     }
 
 
 
-    res.sendStatus(200);
 }

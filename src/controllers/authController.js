@@ -1,11 +1,13 @@
 import connection from '../dataBase/dbStrategy.js'
 import jwt from 'jsonwebtoken';
-
+import bcrypt from 'bcrypt';
 
 export const authSignUp = async (req, res) =>{
-    const {name, email, password, confirmPassword} = req.body;
+    const {name, email, password} = req.body;
     
-    await connection.query("INSERT INTO users(name, email, password) VALUES ($1, $2, $3)", [name, email, password]);
+    const passwordHash = bcrypt.hashSync(password, 10);
+
+    await connection.query("INSERT INTO users(name, email, password) VALUES ($1, $2, $3)", [name, email, passwordHash]);
 
     res.sendStatus(201);
 }
@@ -19,10 +21,12 @@ export const authSign = async (req, res) =>{
     console.log("chaveSecretddd", chaveSecret)
 
 
-    const token = jwt.sign({id: req.body.email}, chaveSecret, {expiresIn:'1m'})
+    const token = jwt.sign({id: req.body.email}, chaveSecret)
 
+    await connection.query('DELETE FROM sessions WHERE "userId"=$1', [res.locals.user.id])
 
-    console.log("token", token)
+    await connection.query('INSERT INTO sessions(token, "userId") VALUES ($1, $2)', [token, res.locals.user.id]);
+
 
     res.status(200).send(token);
 

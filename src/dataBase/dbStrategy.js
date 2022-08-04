@@ -1,15 +1,19 @@
-import pg from 'pg';
+import pg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const { Pool } = pg;
+const configDatabase = {
+  connectionString: process.env.DATABASE_URL
+};
 
 
-const {Pool} = pg;
+  configDatabase.ssl = {
+    require: true, // This will help you. But you will see nwe error
+    rejectUnauthorized: false // This line will fix new error
+  }
 
-const connection = new Pool({
-    host: "localhost",
-    port: 5432,
-    user: "postgres",
-    password: "32050832", // nao fica assim em um projeto de verdade
-    database: "dbShortly"
-  });
-
-
+console.log(process.env.MODE)
+const connection = new Pool(configDatabase);
 export default connection;
