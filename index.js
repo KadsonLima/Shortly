@@ -12,6 +12,8 @@ App.use(json());
 
 App.use(router)
 
-App.listen('5000', ()=>{
+const PORT = process.env.PORT
+
+App.listen(PORT, ()=>{
     console.log("Server rodando")
 })
