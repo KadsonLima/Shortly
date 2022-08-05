@@ -7,10 +7,14 @@ import bcrypt from 'bcrypt';
 
     const {error} = await signSchema.validate(req.body)
 
+
+
     if(error){
         return res.sendStatus(422);    
     }
     
+    console.log("ERRO È POR CAUSA DO BD")
+
     const {rows} = await connection.query("SELECT * FROM users WHERE email=$1", [email]);
 
     if(rows[0] == undefined){
