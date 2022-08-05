@@ -8,10 +8,16 @@ export const validarToken = async (req, res , next)=>{
     const token = authorization && authorization.split(" ")[1]
     
     try {
+        const {rowCount} = await connection.query('SELECT * FROM sessions WHERE token=$1', [token]);
+
+        if(rowCount === 0) {return res.sendStatus(422);}
+        
         const result = await jwt.verify(token, process.env.SECRET_KEY);
         res.locals.id = result.id;
+        res.locals.token = token;
 
     } catch (error) {
+        console.log(error)
         return res.sendStatus(422);
     }
     
