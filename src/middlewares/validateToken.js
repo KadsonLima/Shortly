@@ -10,7 +10,7 @@ export const validarToken = async (req, res , next)=>{
     try {
         const {rowCount} = await connection.query('SELECT * FROM sessions WHERE token=$1', [token]);
 
-        if(rowCount === 0) {return res.sendStatus(422);}
+        if(rowCount === 0) {return res.sendStatus(401);}
         
         const result = await jwt.verify(token, process.env.SECRET_KEY);
         res.locals.id = result.id;
@@ -18,7 +18,7 @@ export const validarToken = async (req, res , next)=>{
 
     } catch (error) {
         console.log(error)
-        return res.sendStatus(422);
+        return res.sendStatus(401);
     }
     
 
