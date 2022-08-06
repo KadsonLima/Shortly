@@ -13,8 +13,6 @@ import bcrypt from 'bcrypt';
         return res.sendStatus(422);    
     }
     
-    console.log("ERRO È POR CAUSA DO BD")
-
     const {rows} = await connection.query("SELECT * FROM users WHERE email=$1", [email]);
 
     if(rows[0] == undefined){

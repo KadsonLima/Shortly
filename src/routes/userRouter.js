@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUserMe } from "../controllers/getUser.js";
+import { getUserMe } from "../controllers/userController.js";
 import { validarToken } from "../middlewares/validateToken.js";
 
 
