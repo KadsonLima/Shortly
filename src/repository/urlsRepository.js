@@ -77,10 +77,10 @@ async function urlById(idUrl) {
 
 async function rankingUrls(){
    return await connection.query(`
-   SELECT u1.id, u1.name, SUM(urls."visitCount") as "visitCount", COUNT(urls."userId") as "linksCount" FROM users u1 
-   JOIN urls ON urls."userId" = u1.id
+   SELECT u1.id, u1.name, COALESCE(SUM(urls."visitCount"), 0) as "visitCount",  COUNT(urls."userId") as "linksCount" FROM users u1 
+   LEFT JOIN urls ON urls."userId" = u1.id
    GROUP BY u1.id
-   ORDER BY "visitCount" DESC
+   ORDER BY "visitCount" DESC 
    LIMIT 10
    `)
 }
