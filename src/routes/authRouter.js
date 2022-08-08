@@ -9,7 +9,7 @@ import validateSignUp from "../middlewares/validateSignUp.js";
 const authRouter = Router();
 
 
-authRouter.get('/sign',validateSign, authSign);
-authRouter.get('/signup',validateSignUp, authSignUp);
+authRouter.post('/sign',validateSign, authSign);
+authRouter.post('/signup',validateSignUp, authSignUp);
 
 export default authRouter;
