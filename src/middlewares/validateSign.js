@@ -13,16 +13,16 @@ import bcrypt from 'bcrypt';
         return res.sendStatus(422);    
     }
     
-    const {rows} = await connection.query("SELECT * FROM users WHERE email=$1", [email]);
+    const {rows, rowCount} = await connection.query("SELECT * FROM users WHERE email=$1", [email]);
 
-    if(rows[0] == undefined){
-        return res.sendStatus(422)
+    if(rowCount == undefined){
+        return res.sendStatus(401)
     }
 
     console.log(bcrypt.compareSync(password, rows[0].password))
 
     if(rows[0].email !== email || !bcrypt.compareSync(password, rows[0].password)){
-        return res.sendStatus(422)
+        return res.sendStatus(401)
     }
     res.locals.user = rows[0];
 
