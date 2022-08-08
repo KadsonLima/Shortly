@@ -18,15 +18,11 @@ export const signUpSchema = joi.object({
 
     password: joi.string().required(),
 
-    confirmPassword: joi.ref('password').required()
+    confirmPassword:Joi.string().required().valid(Joi.ref('password'))
+
 
 });
 
 
-const authorizationSchema = joi.object({
-
-    
-
-});
 
 
