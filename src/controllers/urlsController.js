@@ -33,7 +33,7 @@ export const getUrl = async (req, res) => {
     const url = await getUrls(shortUrl);
     return res.redirect(url);
   } catch (error) {
-    console.log(error);
+    console.log("ERROR", error);
     return res.sendStatus(404);
   }
 };

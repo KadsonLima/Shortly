@@ -30,7 +30,7 @@ async function getUrls(url) {
   const {
     rows: { [0]: dadosUrl },
   } = await connection.query('SELECT * FROM urls WHERE "shortUrl"=$1', [url]);
-
+  console.log("URL E AGR dados", url, dadosUrl)
   await connection.query(
     'UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE id=$1',
     [dadosUrl.id]
