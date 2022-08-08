@@ -15,7 +15,7 @@ import bcrypt from 'bcrypt';
     
     const {rows, rowCount} = await connection.query("SELECT * FROM users WHERE email=$1", [email]);
 
-    if(rowCount == undefined){
+    if(rowCount === 0){
         return res.sendStatus(401)
     }
 
